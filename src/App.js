@@ -24,7 +24,7 @@ function App() {
         console.log('Not subscribed to push service!');
       } else {
         axios.post('https://33d3d4c4f754.ngrok.io/subscription', {
-          data:JSON.stringify(sub)
+          data:sub
   })
   .then(function (response) {
     console.log(response);
