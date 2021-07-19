@@ -7,7 +7,7 @@ function App() {
     console.log('Notification permission status:', status);
 });
   if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(function(reg) {
+  navigator.serviceWorker.register('./service-worker.js').then(function(reg) {
     console.log('Service Worker Registered!', reg);
 
     navigator.serviceWorker.ready.
