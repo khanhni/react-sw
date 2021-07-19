@@ -23,7 +23,7 @@ function App() {
         console.log('Not subscribed to push service!');
       } else {
         // We have a subscription, update the database
-        console.log('Subscription object: ', JSON.stringify(sub));
+        console.log('Subscription object: ', sub.getKey('p256dh'));
       }
     });
   })
