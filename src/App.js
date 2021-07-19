@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import axios from 'axios';
 import './App.css';
 const pushServerPublicKey = "BL9mTXkxuYardoFD2ZwnynR_XhLxgWyp_z2N1vaNDLTA-mwPXXMfHDfPVhuFuJp1KJn26obMnOW5EcNZ5WKRtoE" 
 function App() {
@@ -22,8 +23,18 @@ function App() {
         // Update UI to ask user to register for Push
         console.log('Not subscribed to push service!');
       } else {
+        axios.post('https://33d3d4c4f754.ngrok.io/subscription', {
+          data:JSON.stringify(sub)
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
         // We have a subscription, update the database
-        console.log('Subscription object: ', sub.getKey('p256dh'));
+        // console.log('Subscription object: ', sub.getKey('p256dh'));
+
       }
     });
   })
