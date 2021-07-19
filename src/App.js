@@ -1,21 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-const pushServerPublicKey = "BL9mTXkxuYardoFD2ZwnynR_XhLxgWyp_z2N1vaNDLTA-mwPXXMfHDfPVhuFuJp1KJn26obMnOW5EcNZ5WKRtoE"
+const pushServerPublicKey = "BL9mTXkxuYardoFD2ZwnynR_XhLxgWyp_z2N1vaNDLTA-mwPXXMfHDfPVhuFuJp1KJn26obMnOW5EcNZ5WKRtoE" 
 function App() {
   Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
 });
   if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./service-worker.js').then(function(reg) {
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
     console.log('Service Worker Registered!', reg);
 
-    navigator.serviceWorker.ready.then(function(ready) {
+    navigator.serviceWorker.ready.
+    then(function(ready) {
       ready.pushManager.subscribe({
     userVisibleOnly: true,
     applicationServerKey: pushServerPublicKey
-  });
-
+    }).
+    then(function() {
     ready.pushManager.getSubscription().then(function(sub) {
       if (sub === null) {
         // Update UI to ask user to register for Push
@@ -25,8 +26,8 @@ function App() {
         console.log('Subscription object: ', sub);
       }
     });
+  })
     })
-
     
   })
    .catch(function(err) {
