@@ -1,8 +1,39 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+const pushServerPublicKey = "BL9mTXkxuYardoFD2ZwnynR_XhLxgWyp_z2N1vaNDLTA-mwPXXMfHDfPVhuFuJp1KJn26obMnOW5EcNZ5WKRtoE"
 function App() {
+  Notification.requestPermission(function(status) {
+    console.log('Notification permission status:', status);
+});
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./service-worker.js').then(function(reg) {
+    console.log('Service Worker Registered!', reg);
+
+    navigator.serviceWorker.ready.then(function(ready) {
+      ready.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: pushServerPublicKey
+  });
+
+    ready.pushManager.getSubscription().then(function(sub) {
+      if (sub === null) {
+        // Update UI to ask user to register for Push
+        console.log('Not subscribed to push service!');
+      } else {
+        // We have a subscription, update the database
+        console.log('Subscription object: ', sub);
+      }
+    });
+    })
+
+    
+  })
+   .catch(function(err) {
+    console.log('Service Worker registration failed: ', err);
+  });
+}
+
   return (
     <div className="App">
       <header className="App-header">
@@ -21,6 +52,14 @@ function App() {
       </header>
     </div>
   );
+}
+
+function displayNotification() {
+  if (Notification.permission == 'granted') {
+    navigator.serviceWorker.getRegistration().then(function(reg) {
+      reg.showNotification('Hello world!');
+    });
+  }
 }
 
 export default App;
